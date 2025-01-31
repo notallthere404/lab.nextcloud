@@ -9,7 +9,7 @@ resource "openstack_blockstorage_volume_v3" "bastion_boot_vol" {
 
 
 resource "openstack_compute_instance_v2" "bastion" {
-  name              = "seho-bastion"
+  name              = "bastion"
   image_id          = var.image["ubu24"]
   flavor_id         = var.flavor["m1.tiny"]
   key_pair          = data.openstack_compute_keypair_v2.keypair.name
