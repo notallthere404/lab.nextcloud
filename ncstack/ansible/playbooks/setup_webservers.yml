@@ -1,6 +1,0 @@
----
-- name: Deploy  with Apache
-  hosts: webservers
-  become: true
-  roles:
-    - php

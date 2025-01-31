@@ -1,5 +1,0 @@
----
-db_user: "main"
-db_name: "nextcloud"
-db_password: "dbpassword"
-db_host: "DATABASE IP"

@@ -1,7 +1,0 @@
----
-- name: Deploy Docker and PostgreSQL
-  hosts: database
-  become: yes
-  roles:
-    - docker
-    - postgres
