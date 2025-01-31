@@ -29,13 +29,3 @@ resource "openstack_compute_instance_v2" "lb" {
     group = "lb"
   }
 }
-
-data "openstack_dns_zone_v2" "zone" { name = "iths.lab.dsnw.dev." }
-
-resource "openstack_dns_recordset_v2" "a-record" {
-  zone_id = data.openstack_dns_zone_v2.zone.id
-  name    = var.domain[0]
-  ttl     = 10
-  type    = "A"
-  records = [openstack_networking_floatingip_v2.lb_fip.address]
-}
