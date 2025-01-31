@@ -1,0 +1,109 @@
+---
+- name: Certbot install & HAproxy config
+  hosts: load_balancer
+  become: true
+  vars:
+    domain: domain
+    hostpath: Replace with lab credentials
+    email: xxx
+
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: py3 install
+      apt:
+        name: python3
+        state: present
+
+    - name: HAproxy install
+      apt:
+        name: haproxy
+        state: present
+
+    - name: Certbot install
+      apt:
+        name: certbot
+        state: present
+
+    - name: Plugin rfc2136
+      apt:
+        name: python3-certbot-dns-rfc2136
+        state: present
+
+    - name: Copy secrets
+      copy:
+        src: "{{ hostpath }}"
+        dest: /home/ubuntu/lab-credentials.ini
+        mode: "0600"
+
+    - name: Certify
+      command: >
+        certbot certonly --dns-rfc2136 --dns-rfc2136-credentials /path/to/lab-credentials.ini
+        -d {{domain}} --email {{email}} --agree-tos --non-interactive
+
+    - name: Create HAproxy directory
+      file:
+        path: /etc/haproxy/.ssl
+        state: directory
+        mode: "0750"
+      become: true
+
+    - name: Create pem
+      command: truncate -s 0 /etc/haproxy/.ssl/key.pem
+      become: true
+      become_user: root
+
+    - name: Merge keys
+      shell: cat /etc/letsencrypt/live/{{ domain }}/privkey.pem /etc/letsencrypt/live/{{ domain }}/fullchain.pem > /etc/haproxy/.ssl/key.pem
+      become: true
+      become_user: root
+
+    - name: Write HAProxy configuration
+      copy:
+        dest: /etc/haproxy/haproxy.cfg
+        content: |
+          global
+              log /dev/log    local0
+              log /dev/log    local1 notice
+              chroot /var/lib/haproxy
+              stats socket /run/haproxy/admin.sock mode 660 level admin
+              stats timeout 30s
+              user haproxy
+              group haproxy
+              daemon
+
+          defaults
+              log     global
+              mode    http
+              option  httplog
+              option  dontlognull
+              timeout connect 5000
+              timeout client  50000
+              timeout server  50000
+
+          frontend http_front
+              bind *:80
+              stats uri /haproxy?stats
+              default_backend http_back
+
+          backend http_back
+              balance leastconn
+              server web-1 192.168.94.10:80 check
+              server web-2 192.168.94.20:80 check
+
+          frontend https_front
+              bind *:443 ssl crt /etc/haproxy/.ssl/key.pem
+              default_backend https_back
+
+          backend https_back
+              balance leastconn
+              server web-1 192.168.94.10:80 check
+              server web-2 192.168.94.20:80 check
+
+    - name: Restart HAproxy
+      systemd:
+        name: haproxy
+        state: restarted
+      become: true
