@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  db:
+      image: postgres:15-alpine
+      container_name: nc
+      restart: unless-stopped
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_DB={{ db_name }}
+        - POSTGRES_USER={{ db_user }}
+        - POSTGRES_PASSWORD={{ db_password }}
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - POSTGRES_HOST={{db_host}}
+      - POSTGRES_DB={{ db_name }}
+      - POSTGRES_USER={{ db_user }}
+      - POSTGRES_PASSWORD={{ db_password }}
+    depends_on:
+      - db
+volumes:
+  postgres_data:
+  nextcloud:

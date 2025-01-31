@@ -1,0 +1,84 @@
+LAB To-do:
+1. Use Openstack module to pull IP addresses into ansible
+2. Test terraform destroy/apply Webserver/volume
+3. Test setup_webservers ansible
+4. Setup certbot and HTTPS for Nextcloud
+
+Steps:
+    Terraform:
+        1. Create .tf files
+        2. terraform apply
+    Ansible:
+        1. Openstack pull addresses
+        2. setup_webservers
+        3. setup_webservers
+        4. certify_load_balancer
+
+Infrastructure:
+Bastion:
+    Instance:
+        OS: Ubuntu - 24.04 
+        IP: Floating, Internal
+        Rules(in): ssh[22]
+        Rules(out): ssh[22]
+
+Loadbalancer:
+    Instance:
+        OS: Ubuntu - 24.04 
+        IP: Floating, Internal
+        Rules(in): ssh from bastion[22], HTTP(80), HTTPS(443)
+        Rules(out): HTTP(80), HTTPS(443)
+    Software:
+        HAproxy
+        certbot(rfc2136)
+
+Webserver:
+    Instance:
+        OS: Ubuntu - 22.04
+        IP: Internal
+        Rules(in): ssh from bastion[22], HTTP(80), HTTPS(443), Postgresql(5432)
+        Rules(out): HTTP(80), HTTPS(443), Postgresql(5432)
+    Software:
+        Webserver: Apache 2.4(mod_php or php_fhm)
+        PHP: 8.3
+
+Database:
+    Instance:
+        OS: Ubuntu - 24.04
+        IP: Internal
+        Rules(in): ssh from bastion[22], Postgresql(5432)
+        Rules(out): Postgresql(5432)
+    Software:
+        Database: Docker, Postgresql(Alpine 15)
+
+
+Software Deployment:
+
+Playbook Order:
+----------------------------------
+    Webserver - Apache[2.4]
+
+    Webserver - PHP[8.3]
+        libapache2-mod-php 
+        php-gd 
+        php-Postgresql
+        php-curl 
+        php-mbstring 
+        php-intl 
+        php-gmp 
+        php-bcmath 
+        php-xml 
+        php-imagick 
+        php-zip
+
+    Webserver - Nextcloud
+        download zip
+        move to www/html
+        chown
+----------------------------------
+    Database - Docker?
+    Database - Postgresql
+
+
+    Loadbalancer - HAproxy
+    Loadbalancer - certbot
