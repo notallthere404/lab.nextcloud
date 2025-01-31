@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "web-1" {
   name              = "web-1"
   image_id          = var.image["ubu22"]
   flavor_id         = var.flavor["m1.small"]
-  key_pair          = data.openstack_compute_keypair_v2.os_kp.name
+  key_pair          = data.openstack_compute_keypair_v2.keypair.name
   security_groups   = ["sg-web-server"]
   availability_zone = var.zone[1]
   network {
@@ -43,7 +43,7 @@ resource "openstack_compute_instance_v2" "web-2" {
   name              = "web-2"
   image_id          = var.image["ubu22"]
   flavor_id         = var.flavor["m1.small"]
-  key_pair          = data.openstack_compute_keypair_v2.os_kp.name
+  key_pair          = data.openstack_compute_keypair_v2.keypair.name
   security_groups   = ["sg-web-server"]
   availability_zone = var.zone[2]
   network {
