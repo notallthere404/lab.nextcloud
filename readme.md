@@ -1,12 +1,15 @@
 Terraform
 
-1. User needs to replace .sh and lab.conf with their own
-2. Terraform init
+1. Replace clouds.yaml(Can be downloaded from openstack horizon)
+2. Replace ...openrc.sh(Can be downloaded from openstack horizon)
 3. Replace variables.tf values
+4. terraform init => terraform plan => terraform apply
 
 Ansible
 
-1. Enter correct inventory.ini values
-2. Replace key path in playbooks/certify_load_balancer.yml
-3. Replace database variables in playbooks/roles/postgres/vars/main.yml
-4. Replace domain name in playbooks/roles/php/templates/config.php.j2
+1. Add IP address & ssh key path to inventory.ini
+2. Replace IP address & ssh key in ansible.cfg
+3. 3. Add database IP to /playbooks/roles/postgres/vars/main.yml
+4. Add database IP to /playbooks/roles/php/vars/main.yml
+5. Replace domains and trusted IP in /playbooks/roles/php/templates/config.php.j2
+6. Replace vars and web server IP addresses in ansible/playbooks/certify_load_balancer.yml
