@@ -9,10 +9,10 @@
 clouds:
   openstack:
     auth:
-      auth_url: 
-      username: 
-      project_id: 
-      project_name: 
+      auth_url: https://lab.dsnw.dev:5000
+      username: "iths-seho"
+      project_id: 6688b15988a94b5eb5b1975947338022
+      project_name: "iths-seho"
       user_domain_name: "Default"
     region_name: "RegionOne"
     interface: "public"

@@ -1,0 +1,4 @@
+# openstack_inventory.yml
+plugin: openstack
+clouds:
+  - nc 

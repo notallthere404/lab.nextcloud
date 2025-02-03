@@ -1,3 +1,6 @@
+## Env Variables ##
+.env
+
 ## Openstack ##
 clouds.yaml
 *rc.sh
