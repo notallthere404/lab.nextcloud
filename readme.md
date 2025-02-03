@@ -13,3 +13,4 @@ Ansible
 4. Add database IP to /playbooks/roles/php/vars/main.yml
 5. Replace domains and trusted IP in /playbooks/roles/php/templates/config.php.j2
 6. Replace vars and web server IP addresses in ansible/playbooks/certify_load_balancer.yml
+7. Test
