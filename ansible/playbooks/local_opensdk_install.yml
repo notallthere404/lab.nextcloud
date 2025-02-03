@@ -1,0 +1,26 @@
+---
+- name: Install OpenStack SDK
+  hosts: localhost
+  become: true
+
+  vars: venv_path:/home/shl/ncstack/lab.nextcloud
+
+  tasks:
+    - name: Ensure Python and venv are installed
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - "{{ python_version }}"
+        - python3-venv
+
+    - name: Create virtual environment
+      command: "{{ python_version }} -m venv {{ venv_path }}"
+      args:
+        creates: "{{ venv_path }}"
+
+    - name: Install OpenStack SDK in virtual environment
+      command: "{{ venv_path }}/bin/pip install openstack"
+
+    - name: Verify OpenStack SDK installation
+      command: "{{ venv_path }}/bin/pip show openstack"
