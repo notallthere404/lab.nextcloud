@@ -3,9 +3,9 @@
   hosts: load_balancer
   become: true
   vars:
-    domain: domain
-    hostpath: Replace with lab credentials
-    email: xxx
+    domain: example.iths.lab.dsnw.dev
+    hostpath: /path/to/lab-credentials.ini
+    email: test@example.com
 
   tasks:
     - name: Update apt
@@ -40,7 +40,7 @@
 
     - name: Certify
       command: >
-        certbot certonly --dns-rfc2136 --dns-rfc2136-credentials /path/to/lab-credentials.ini
+        certbot certonly --dns-rfc2136 --dns-rfc2136-credentials /home/ubuntu/lab-credentials.ini
         -d {{domain}} --email {{email}} --agree-tos --non-interactive
 
     - name: Create HAproxy directory

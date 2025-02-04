@@ -17,3 +17,7 @@ output "web_server_1_ip" {
 output "web_server_2_ip" {
   value = openstack_compute_instance_v2.web-2.access_ip_v4
 }
+
+output "db_ip" {
+  value = openstack_compute_instance_v2.db.access_ip_v4
+}
