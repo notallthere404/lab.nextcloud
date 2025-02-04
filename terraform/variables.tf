@@ -4,7 +4,7 @@ variable "sshkey" {
   description = "Key name for ssh"
   type        = list(string)
   default = [
-    "sshkey"
+    "keyname"
   ]
 }
 
@@ -29,7 +29,7 @@ variable "domain" {
   description = "domain address"
   type        = list(string)
   default = [
-    "iths-seho.iths.lab.dsnw.dev.",
+    "nc.iths.lab.dsnw.dev.",
   ]
 }
 

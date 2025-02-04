@@ -1,5 +1,5 @@
----
-db_user: "main"
-db_name: "nextcloud"
-db_password: "dbpassword"
-db_host: "192.168.94.62"
+db_host:
+db_name: nextcloud
+db_password: dbpassword
+db_user: nextcloud
+domain: ""

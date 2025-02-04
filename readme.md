@@ -1,16 +1,19 @@
 Terraform
 
-1. Replace clouds.yaml(Can be downloaded from openstack horizon)
-2. Replace ...openrc.sh(Can be downloaded from openstack horizon)
-3. Replace variables.tf values
-4. terraform init => terraform plan => terraform apply
+1. Remove .template from .env.template file and enter credentials
+   a. Variables in use are:
+   b. Cloud Provider Credentials
+   c. ssh key path
+   d. Ansible vars
+2. Create python virtual env in lab.nextcloud and activate it
+3. pip install pyyaml and python-dotenv
+4. Run clouds-generator.py
+5. Replace variables.tf values
+6. terraform init => terraform plan => terraform apply
 
 Ansible
 
-1. Add IP address & ssh key path to inventory.ini
-2. Replace IP address & ssh key in ansible.cfg
-3. 3. Add database IP to /playbooks/roles/postgres/vars/main.yml
-4. Add database IP to /playbooks/roles/php/vars/main.yml
-5. Replace domains and trusted IP in /playbooks/roles/php/templates/config.php.j2
-6. Replace vars and web server IP addresses in ansible/playbooks/certify_load_balancer.yml
-7. Test
+1. Run inventory-generator.py after terraform apply to create inventory.ini and write to .env
+2. Run vars-generator.py to write to vars
+3. Create lab-creds.ini using info on darksnowlab wiki
+4. Replace vars and web server IP addresses in ansible/playbooks/certify_load_balancer.yml

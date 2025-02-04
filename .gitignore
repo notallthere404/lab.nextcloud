@@ -1,0 +1,18 @@
+## Env Variables ##
+.env
+
+## Openstack ##
+clouds.yaml
+*rc.sh
+
+### Terraform ###
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
