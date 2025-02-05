@@ -1,0 +1,6 @@
+---
+- name: "ssh_gen&vpn_connect"
+  hosts: localhost
+  roles: 
+    - ssh
+    - vpn
