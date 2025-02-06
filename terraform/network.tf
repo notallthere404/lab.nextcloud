@@ -42,11 +42,10 @@ resource "openstack_networking_secgroup_rule_v2" "bastion_icmp_egress" {
   security_group_id = openstack_networking_secgroup_v2.sg-bastion.id
 }
 
-
 # Security group WebServers SSH & HTTP(S)
 resource "openstack_networking_secgroup_v2" "sg-web-server" {
   name        = "sg-web-server"
-  description = "web server sec group"
+  description = "web server security group"
 }
 
 resource "openstack_networking_secgroup_rule_v2" "web_server_ssh_ingress" {
@@ -82,38 +81,11 @@ resource "openstack_networking_secgroup_rule_v2" "web_server_https_ingress" {
   description       = "Allow HTTPS from the Internet"
 }
 
-# Security group Database Postgresql
-resource "openstack_networking_secgroup_v2" "sg-db-server" {
-  name        = "sg-db-server"
-  description = "database sec group"
-}
-
-resource "openstack_networking_secgroup_rule_v2" "db_server_ssh_ingress" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 22
-  port_range_max    = 22
-  remote_group_id   = openstack_networking_secgroup_v2.sg-bastion.id
-  security_group_id = openstack_networking_secgroup_v2.sg-db-server.id
-  description       = "Allow SSH from the Bastion Security Group"
-}
-
-resource "openstack_networking_secgroup_rule_v2" "db_server_postgres" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 5432
-  port_range_max    = 5432
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = openstack_networking_secgroup_v2.sg-db-server.id
-}
-
 # External network/router
 resource "openstack_networking_router_v2" "router" {
   name                = "router"
   admin_state_up      = true
-  external_network_id = var.netid[0]
+  external_network_id = "f3fa073e-8038-44c4-ae42-64e2045ae538"
 }
 resource "openstack_networking_router_interface_v2" "router_interface" {
   router_id = openstack_networking_router_v2.router.id
@@ -130,16 +102,15 @@ resource "openstack_compute_floatingip_associate_v2" "bastion_fip_assoc" {
   instance_id = openstack_compute_instance_v2.bastion.id
 }
 
-# Floating IP for load-balancer
-resource "openstack_networking_floatingip_v2" "lb_fip" {
+# Floating IP for web server
+resource "openstack_networking_floatingip_v2" "webserver_fip" {
   pool = "external-net"
 }
 
-resource "openstack_compute_floatingip_associate_v2" "lb_fip_assoc" {
-  floating_ip = openstack_networking_floatingip_v2.lb_fip.address
-  instance_id = openstack_compute_instance_v2.lb.id
+resource "openstack_compute_floatingip_associate_v2" "webserver_fip_assoc" {
+  floating_ip = openstack_networking_floatingip_v2.webserver_fip.address
+  instance_id = openstack_compute_instance_v2.webserver.id
 }
-
 
 data "openstack_dns_zone_v2" "zone" { name = "iths.lab.dsnw.dev." }
 
@@ -148,5 +119,5 @@ resource "openstack_dns_recordset_v2" "a-record" {
   name    = var.domain[0]
   ttl     = 10
   type    = "A"
-  records = [openstack_networking_floatingip_v2.lb_fip.address]
+  records = [openstack_networking_floatingip_v2.webserver.address]
 }

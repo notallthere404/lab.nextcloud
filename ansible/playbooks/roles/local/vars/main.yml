@@ -1,0 +1,6 @@
+---
+## Pathname for ssh key ##
+ssh_path: "~/.ssh/3iths-lab-env"
+
+## Wireguard configuration name ##
+vpn_name: lab-iths-xxxx

@@ -35,30 +35,37 @@ def get_terraform_output():
 # Writes the ssh key path and IP addresses into ansible/inventory.ini
 def write_inventory(ssh_key_path, ips):
     inventory_path = os.path.expanduser('~/lab.nextcloud/ansible/inventory.ini')
+    config_path = os.path.expanduser('~/lab.nextcloud/ansible/ansible.cfg')
     
     inventory_content = dedent(f"""\
         [bastion]
         bs ansible_host={ips['bastion']} ansible_user=ubuntu
 
-        [load_balancer]
-        lb ansible_host={ips['lb']} ansible_user=ubuntu ansible_ssh_port=22
-
-        [database]
-        db ansible_host={ips['db']} ansible_user=ubuntu ansible_ssh_port=22
-
-        [webservers]
-        web-1 ansible_host={ips['web1']} ansible_user=ubuntu ansible_ssh_port=22
-        web-2 ansible_host={ips['web2']} ansible_user=ubuntu ansible_ssh_port=22
+        [webserver]
+        web ansible_host={ips['web1']} ansible_user=ubuntu ansible_ssh_port=22
 
         [all:vars]
         ansible_ssh_private_key_file={ssh_key_path}
     """)
 
+    config_content = dedent(f"""\
+        [defaults]
+        inventory = inventory.ini
+
+        [ssh_connection]
+        ssh_args = -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q ubuntu@{ips['bastion']} -i {ssh_key_path}"
+    """)
+
     os.makedirs(os.path.dirname(inventory_path), exist_ok=True)
+    os.makedirs(os.path.dirname(config_path), exist_ok=True)
     
-    with open(inventory_path, 'w') as f:
-        f.write(inventory_content)
+    with open(inventory_path, 'w') as p:
+        p.write(inventory_content)
     print(f"Generated inventory.ini successfully at {inventory_path}")
+
+    with open(config_path, 'w') as p:
+        p.write(config_content)
+    print(f"Generated ansible.cfg successfully at {config_path}")
 
 
 # Writes IP address to DATABASE_HOST in .env

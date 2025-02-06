@@ -1,0 +1,7 @@
+---
+- name: Deploy Docker and Nextcloud/Postgres stack
+  hosts: webserver
+  become: yes
+  roles:
+    - docker
+    - app-stack

@@ -16,16 +16,12 @@ def generate_main_yaml():
         }
     
     # Define the paths to the vars in ansible
-    php_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/php/vars/main.yml')
-    postgres_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/postgres/vars/main.yml')
-    
+    app_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/app-stack/vars/main.yml')
+  
     # Write to paths using vars as content
-    with open(php_path, 'w') as p:
+    with open(app_path, 'w') as p:
         yaml.dump(vars, p, default_flow_style=False)
 
-    with open(postgres_path, 'w') as p:
-        yaml.dump(vars, p, default_flow_style=False)
-    
     return vars
 
 

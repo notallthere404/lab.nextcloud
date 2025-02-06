@@ -1,6 +1,5 @@
 ---
-- name: "ssh_gen&vpn_connect"
+- name: Connect to Wireguard & Generate ssh key
   hosts: localhost
-  roles: 
-    - ssh
-    - vpn
+  roles:
+    - local

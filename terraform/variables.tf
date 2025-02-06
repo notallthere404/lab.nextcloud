@@ -4,7 +4,7 @@ variable "sshkey" {
   description = "Key name for ssh"
   type        = list(string)
   default = [
-    "keyname"
+    "httpserverkey"
   ]
 }
 
@@ -16,15 +16,6 @@ variable "cidr" {
   ]
 }
 
-variable "ipstat" {
-  description = "Static IP addresses"
-  type        = list(string)
-  default = [
-    "192.168.94.10",
-    "192.168.94.20"
-  ]
-}
-
 variable "domain" {
   description = "domain address"
   type        = list(string)
@@ -32,15 +23,6 @@ variable "domain" {
     "nc.iths.lab.dsnw.dev.",
   ]
 }
-
-variable "netid" {
-  description = "External network id"
-  type        = list(string)
-  default = [
-    "f3fa073e-8038-44c4-ae42-64e2045ae538",
-  ]
-}
-
 
 ################### Do not need to change variables below ################### 
 
