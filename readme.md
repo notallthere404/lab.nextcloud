@@ -16,21 +16,20 @@ Preparation:
 1. Run playbook setup_local.yml to connect to wireguard and generate ssh key(optional)
 2. Select automatic method or manual method
 3. Automatic:
-   a. Fill in .env.template and remove .template from name
-   b. Activate virtual environment with "source venv/bin/activate"
-   c. Run command "python clouds-generator.py" to create clouds.yaml
+   - Fill in .env.template and remove .template from name
+   - Activate virtual environment with "source venv/bin/activate"
+   - Run command "python clouds-generator.py" to create clouds.yaml
 4. Manual:
-   a. Login to openstack horizon
-   b. Fetch clouds.yaml and openrc.sh
-   c. Run source /path/to/openrc.sh
-   d. Enter password
+   - Login to openstack horizon
+   - Fetch clouds.yaml and openrc.sh
+   - Run source /path/to/openrc.sh
+   - Enter password
 5. Set ssh key path in variables.tf and main.tf
 6. terraform init => terraform plan => terraform apply
-
 7. Automatic:
-   a. Run command "python inventory-generator.py" and "python vars-generator.py"
+   - Run command "python inventory-generator.py" and "python vars-generator.py"
 8. Manual:
-   a. Get IP-addresses from output
-   b. Input IP-addresses and ssh key path to inventory.ini
-   c. Input IP-addresses and ssh key path to ansible.cfg
-   d. Enter database info into ansible/playbooks/roles/app-stack/templates/docker-compose.yml.j2
+   - Get IP-addresses from output
+   - Input IP-addresses and ssh key path to inventory.ini
+   - Input IP-addresses and ssh key path to ansible.cfg
+   - Enter database info into ansible/playbooks/roles/app-stack/templates/docker-compose.yml.j2
