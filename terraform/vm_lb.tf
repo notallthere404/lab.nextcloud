@@ -12,7 +12,7 @@ resource "openstack_compute_instance_v2" "lb" {
   name              = "lb"
   image_id          = var.image["ubu24"]
   flavor_id         = var.flavor["m1.small"]
-  key_pair          = data.openstack_compute_keypair_v2.keypair.name
+  key_pair          = openstack_compute_keypair_v2.keypair.name
   security_groups   = ["sg-web-server"]
   availability_zone = var.zone[4]
   network {

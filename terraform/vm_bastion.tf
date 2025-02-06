@@ -12,7 +12,7 @@ resource "openstack_compute_instance_v2" "bastion" {
   name              = "bastion"
   image_id          = var.image["ubu24"]
   flavor_id         = var.flavor["m1.tiny"]
-  key_pair          = data.openstack_compute_keypair_v2.keypair.name
+  key_pair          = openstack_compute_keypair_v2.keypair.name
   security_groups   = ["sg-bastion"]
   availability_zone = var.zone[3]
   network {

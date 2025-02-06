@@ -11,8 +11,10 @@ provider "openstack" {
   cloud = "openstack"
 }
 
-data "openstack_compute_keypair_v2" "keypair" {
-  name = var.sshkey[0]
+resource "openstack_compute_keypair_v2" "keypair" {
+  name       = "iths-lab-env-keypair"
+  public_key = file("~/.ssh/3iths-lab-env.pub")
 }
+
 
 
