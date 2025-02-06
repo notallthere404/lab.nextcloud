@@ -10,13 +10,8 @@ terraform {
 provider "openstack" {
   cloud = "openstack"
 }
-/*
-resource "openstack_compute_keypair_v2" "keypair" {
-  name       = "iths-lab-env-keypair"
-  public_key = file("~/.ssh/3iths-lab-env.pub")
-}
-*/
 
-data "openstack_compute_keypair_v2" "keypair" {
-  name = "httpserverkey"
+resource "openstack_compute_keypair_v2" "keypair" {
+  name       = "keypair"
+  public_key = file("~/.ssh/nc-ssh.pub")
 }

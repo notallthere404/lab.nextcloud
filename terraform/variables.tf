@@ -1,13 +1,4 @@
 #### Replace these Values #######
-
-variable "sshkey" {
-  description = "Key name for ssh"
-  type        = list(string)
-  default = [
-    "httpserverkey"
-  ]
-}
-
 variable "cidr" {
   description = "Subnet CIDR"
   type        = list(string)
