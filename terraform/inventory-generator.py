@@ -25,10 +25,8 @@ def get_terraform_output():
     
     ips = {
         'bastion': tf_output['bastion_fip']['value'],
-        'lb': tf_output['lb_fip']['value'],
-        'web1': tf_output['web_server_1_ip']['value'],
-        'web2': tf_output['web_server_2_ip']['value'],
-        'db': tf_output['db_ip']['value']
+        'webfip': tf_output['webserver_fip']['value'],
+        'webint': tf_output['webserver_ip']['value']
     }
     return ips
 
@@ -42,7 +40,7 @@ def write_inventory(ssh_key_path, ips):
         bs ansible_host={ips['bastion']} ansible_user=ubuntu
 
         [webserver]
-        web ansible_host={ips['web1']} ansible_user=ubuntu ansible_ssh_port=22
+        web ansible_host={ips['webint']} ansible_user=ubuntu ansible_ssh_port=22
 
         [all:vars]
         ansible_ssh_private_key_file={ssh_key_path}
@@ -68,13 +66,6 @@ def write_inventory(ssh_key_path, ips):
     print(f"Generated ansible.cfg successfully at {config_path}")
 
 
-# Writes IP address to DATABASE_HOST in .env
-def write_to_env(ips):
-    env_path = os.path.expanduser('~/lab.nextcloud/.env')
-
-    set_key(dotenv_path=env_path, key_to_set="DATABASE_HOST", value_to_set=(ips['db']))
-    print("Set database IP in dot env")
-
 def main():
     try:
         ssh_key_path = load_environment()
@@ -85,7 +76,6 @@ def main():
         
         write_inventory(ssh_key_path, ips)
 
-        write_to_env(ips)
         
     except Exception as e:
         print(f"Error: {str(e)}")

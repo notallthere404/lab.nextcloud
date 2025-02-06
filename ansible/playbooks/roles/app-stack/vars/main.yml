@@ -1,6 +1,5 @@
-## More variables to come ##
-db_host: ""
+db_host: '#NOT NEEDED RIGHT NOW'
 db_name: nextcloud
 db_password: dbpassword
 db_user: nextcloud
-domain: ""
+domain: nc.iths.lab.dsnw.dev

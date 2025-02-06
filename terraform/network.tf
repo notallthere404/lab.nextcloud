@@ -119,5 +119,5 @@ resource "openstack_dns_recordset_v2" "a-record" {
   name    = var.domain[0]
   ttl     = 10
   type    = "A"
-  records = [openstack_networking_floatingip_v2.webserver.address]
+  records = [openstack_networking_floatingip_v2.webserver_fip.address]
 }
