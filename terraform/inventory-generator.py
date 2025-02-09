@@ -10,7 +10,6 @@ from dotenv import load_dotenv, set_key
 
 # Loads ssh key path from env
 def load_environment():
-    """Load environment variables from .env file"""
     load_dotenv()
     return os.getenv('SSH_KEY_PATH')
 
@@ -25,8 +24,7 @@ def get_terraform_output():
     
     ips = {
         'bastion': tf_output['bastion_fip']['value'],
-        'webfip': tf_output['webserver_fip']['value'],
-        'webint': tf_output['webserver_ip']['value']
+        'web': tf_output['webserver_ip']['value'],
     }
     return ips
 
@@ -40,7 +38,7 @@ def write_inventory(ssh_key_path, ips):
         bs ansible_host={ips['bastion']} ansible_user=ubuntu
 
         [webserver]
-        web ansible_host={ips['webint']} ansible_user=ubuntu ansible_ssh_port=22
+        web ansible_host={ips['web']} ansible_user=ubuntu ansible_ssh_port=22
 
         [all:vars]
         ansible_ssh_private_key_file={ssh_key_path}
@@ -75,7 +73,6 @@ def main():
         ips = get_terraform_output()
         
         write_inventory(ssh_key_path, ips)
-
         
     except Exception as e:
         print(f"Error: {str(e)}")

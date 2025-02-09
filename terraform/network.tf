@@ -81,6 +81,7 @@ resource "openstack_networking_secgroup_rule_v2" "web_server_https_ingress" {
   description       = "Allow HTTPS from the Internet"
 }
 
+
 # External network/router
 resource "openstack_networking_router_v2" "router" {
   name                = "router"
