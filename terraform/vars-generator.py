@@ -11,7 +11,8 @@ def generate_main_yaml():
             'db_user': os.getenv('DATABASE_USERNAME', 'nextcloud'),
             'db_name': os.getenv('DATABASE_NAME', 'nextcloud'),
             'db_password': os.getenv('DATABASE_PASSWORD', 'nextcloud'),
-            'domain': os.getenv('APPLICATION_DOMAIN', 'nc.iths.lab.dsnw.dev')
+            'domain': os.getenv('APPLICATION_DOMAIN', 'nc.iths.lab.dsnw.dev'),
+            'host_ip': os.getenv('HOST_IP', ''),
         }
     
     # Define the paths to the vars in ansible
