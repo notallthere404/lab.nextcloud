@@ -1,19 +1,61 @@
-- name: Check current vpn connection
-  command: nmcli con show --active
-  register: vpn_status
+- name: Set var project dir
+  set_fact:
+    main_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/lab.nextcloud"
 
-- name: Debug vpn status
+- name: Report var
   debug:
-    msg: "{{ vpn_status.stdout }}"
+    msg: "Home Directory: {{ main_dir }}"
 
-- name: Connect to VPN if not connected
+- name: Create venv
+  pip:
+    name:
+      - pyyaml
+      - python-dotenv
+    virtualenv: "{{ main_dir }}/env"
+
+- name: Run pre-deployment.py
+  command: "{{ main_dir }}/env/bin/python pre-deployment.py"
+  args:
+    chdir: "{{ main_dir }}"
+  register: script_output
+
+- name: Check vpn
+  shell: ip a | grep '{{ vpn_name }}'
+  register: vpn_status
+  failed_when: false
+
+- name: Set vpn status
+  set_fact:
+    vpn_connected: "{{ vpn_status.stdout != '' }}"
+
+- name: Report vpn status
+  ansible.builtin.debug:
+    msg: "VPN Connected: {{ vpn_connected }}"
+
+- name: Connect vpn if not alive
   command: wg-quick up {{ vpn_name }}
-  when: vpn_name not in vpn_status.stdout
+  when: not vpn_connected
 
-- name: Generate SSH key
+- name: Create ssh
   community.crypto.openssh_keypair:
     path: "{{ ssh_path }}"
     type: rsa
     size: 4096
     state: present
     force: no
+
+- name: Deploy terraform
+  community.general.terraform:
+    project_path: "{{ main_dir }}/terraform"
+    state: present
+    force_init: yes
+  register: terraform_output
+
+- name: Report ip addresses
+  debug:
+    msg: |
+      {{ terraform_output.outputs.bastion_fip.value }}
+      {{ terraform_output.outputs.webserver_fip.value }}
+      {{ terraform_output.outputs.webserver_ip.value }}
+
+# Capture IP Address with python script

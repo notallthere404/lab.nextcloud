@@ -29,7 +29,7 @@
     state: present
 
 - name: Install Docker
-  ansible.builtin.apt:
+  apt:
     name:
       - docker-ce
       - docker-ce-cli
@@ -43,18 +43,18 @@
     append: true
 
 - name: Install Docker-Compose
-  ansible.builtin.get_url:
+  get_url:
     url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: "755"
 
 - name: Create Docker-Compose symlink
-  ansible.builtin.command:
+  command:
     cmd: ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
     creates: /usr/bin/docker-compose
 
 - name: Restart Docker
-  ansible.builtin.service:
+  service:
     name: docker
     state: restarted
     enabled: true
