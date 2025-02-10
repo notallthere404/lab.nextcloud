@@ -1,22 +1,4 @@
 #### Replace these Values #######
-variable "cidr" {
-  description = "Subnet CIDR"
-  type        = list(string)
-  default = [
-    "192.168.94.0/24"
-  ]
-}
-
-variable "domain" {
-  description = "domain address"
-  type        = list(string)
-  default = [
-    "nc.iths.lab.dsnw.dev.",
-  ]
-}
-
-################### Do not need to change variables below ################### 
-
 variable "zone" {
   description = "Availability zones"
   type        = list(string)

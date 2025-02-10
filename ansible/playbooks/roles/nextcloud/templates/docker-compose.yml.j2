@@ -23,9 +23,9 @@ services:
       POSTGRES_DB: {{ db_name }}
       POSTGRES_USER: {{ db_user }}
       POSTGRES_PASSWORD: {{ db_password }}
-      NEXTCLOUD_ADMIN_USER: nextcloudadmin
-      NEXTCLOUD_ADMIN_PASSWORD: adminpassword
-      NEXTCLOUD_TRUSTED_DOMAINS: "{{ domain }} {{ host_ip }}"
+      NEXTCLOUD_ADMIN_USER: {{ nc_user }}
+      NEXTCLOUD_ADMIN_PASSWORD: {{ nc_password }}
+      NEXTCLOUD_TRUSTED_DOMAINS: "{{ host_ip }}"
     ports:
       - "80:80"
     networks:

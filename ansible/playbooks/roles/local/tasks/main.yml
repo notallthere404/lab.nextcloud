@@ -1,8 +1,8 @@
-- name: Check current VPN connection
+- name: Check current vpn connection
   command: nmcli con show --active
   register: vpn_status
 
-- name: Debug VPN status
+- name: Debug vpn status
   debug:
     msg: "{{ vpn_status.stdout }}"
 

@@ -1,35 +1,61 @@
-### Changelog 06/02/2025
+## 10/02/2025
 
-1. Removed Ansible playbook roles php, postgres
-2. Merged Ansible playbook roles ssh & vpn into local
-3. Removed Ansible playbooks certify_loadbalancer.yml, setup_database.yml
-4. Update inventory.ini
-5. Removed vm_lb.tf, vm_db.tf
-6. Removed web-server-2 from vm_web.tf
-7. Added floating IP to webserver
-8. Updated vars/inventory-generator.py
-9. Added venv with pyyaml and dotenv
-10. Updated Readme
+Prerequisites
 
-Preparation:
+- lab.nextcloud files
+- Ansible
+- Terraform
+- Wireguard | Get vpn conf for wireguard and place in /etc/wireguard/...
+- ssh
 
-1. Run playbook setup_local.yml to connect to wireguard and generate ssh key(optional)
-2. Select automatic method or manual method
-3. Automatic:
-   - Fill in .env.template and remove .template from name
-   - Activate virtual environment with "source venv/bin/activate"
-   - Run command "python clouds-generator.py" to create clouds.yaml
-4. Manual:
-   - Login to openstack horizon
-   - Fetch clouds.yaml and openrc.sh
-   - Run source /path/to/openrc.sh
-   - Enter password
-5. Set ssh key path in variables.tf and main.tf
-6. terraform init => terraform plan => terraform apply
-7. Automatic:
-   - Run command "python inventory-generator.py" and "python vars-generator.py"
-8. Manual:
-   - Get IP-addresses from output
-   - Input IP-addresses and ssh key path to inventory.ini
-   - Input IP-addresses and ssh key path to ansible.cfg
-   - Enter database info into ansible/playbooks/roles/app-stack/templates/docker-compose.yml.j2
+Automatic
+
+Cloud configuration & Instance Deployment
+
+1. Rename .env.template to .env (location lab.nextcloud)
+2. Set the variables in .env(Default values are optional to change)
+   (HOST_IP is written automatically)
+3. Activate virtual env "source venv/bin/activate"
+4. Run "python pre-deployment.py"
+5. Run "ansible-playbook ansible/playbooks/setup_local.yml"
+6. (Optional) set key path in main.tf if not using default
+7. cd into lab.nextcloud/terraform
+8. Run "terraform init"
+9. Run "terraform plan"
+   10.Run "terraform apply"
+
+Nextcloud Deployment
+
+1. Run "python inventory-generator.py"
+2. Run "python vars-generator.py"
+3. cd into ansible
+4. Run "ansible-playbook playbooks/setup_webserver.yml
+
+Manual
+
+Cloud configuration & Instance Deployment
+
+1. Get vpn conf for wireguard and place in /etc/wireguard/...
+2. Set variables in lab.nextcloud/ansible/playbooks/roles/local/vars/main.yml
+   (Set a new ssh key path if you want or use the default)
+3. cd into ansible/
+4. run "ansible-playbook playbooks/setup_local.yml
+   (ssh key is now generated and vpn is now connected to)
+5. (Optional) Set ssh key path in terraform/main.tf if changed from default
+6. Get clouds.yaml and openrc.sh script and place in lab.nextcloud/terraform
+7. cd into lab.nextcloud/terraform
+8. Run cmd "source ...openrc.sh" and enter password
+9. Run "terraform init"
+   10.Run "terraform plan"
+   11.Run "terraform apply"
+   12.Save IP addresses for later use if desired
+
+Nextcloud Deployment
+
+1. cd back to ansible
+2. Change IP addresses in inventory.ini(use webserver_ip not fip)
+3. Change IP address to bastion_fip in ansible.cfg
+4. Change variables in lab.nextcloud/ansible/playbooks/roles/nextcloud/vars/main.yml
+   a. host_ip => webserver_fip
+   b. nextcloud credentials(Optional)
+5. Run "ansible-playbook playbooks/setup_webserver.yml"

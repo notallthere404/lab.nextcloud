@@ -1,6 +1,2 @@
----
-## Pathname for ssh key ##
-ssh_path: "~/.ssh/nc-ssh"
-
-## Wireguard configuration name ##
-vpn_name: lab-iths-xxxx
+ssh_path: /home/shl/.ssh/nc-ssh
+vpn_name: lab-iths-seho

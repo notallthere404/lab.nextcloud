@@ -2,4 +2,6 @@ db_name: nextcloud
 db_password: dbpassword
 db_user: nextcloud
 domain: nc.iths.lab.dsnw.dev
-host_ip: 198.18.1.141
+host_ip:
+nc_password: adminpassword
+nc_user: nextcloudadmin
