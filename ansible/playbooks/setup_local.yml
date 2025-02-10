@@ -1,5 +1,5 @@
 ---
-- name: Connect to Wireguard & Generate ssh key
+- name: Connect to wireguard & generate ssh key
   hosts: localhost
   roles:
     - local

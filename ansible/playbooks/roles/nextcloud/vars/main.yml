@@ -1,5 +1,7 @@
-db_host: '#NOT NEEDED RIGHT NOW'
 db_name: nextcloud
 db_password: dbpassword
 db_user: nextcloud
 domain: nc.iths.lab.dsnw.dev
+host_ip:
+nc_password: adminpassword
+nc_user: nextcloudadmin

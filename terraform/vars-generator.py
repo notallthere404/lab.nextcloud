@@ -11,12 +11,14 @@ def generate_main_yaml():
             'db_user': os.getenv('DATABASE_USERNAME', 'nextcloud'),
             'db_name': os.getenv('DATABASE_NAME', 'nextcloud'),
             'db_password': os.getenv('DATABASE_PASSWORD', 'nextcloud'),
-            'db_host': os.getenv('DATABASE_HOST', 'nextcloud'),
-            'domain': os.getenv('APPLICATION_DOMAIN', 'nc.iths.lab.dsnw.dev')
+            'domain': os.getenv('APPLICATION_DOMAIN', 'nc.iths.lab.dsnw.dev'),
+            'host_ip': os.getenv('HOST_IP', ''),
+            'nc_user': os.getenv('NEXTCLOUD_ADMIN', 'nextcloudadmin'),
+            'nc_password': os.getenv('NEXTCLOUD_PASSWORD', 'adminpassword'),
         }
     
     # Define the paths to the vars in ansible
-    app_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/app-stack/vars/main.yml')
+    app_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/nextcloud/vars/main.yml')
   
     # Write to paths using vars as content
     with open(app_path, 'w') as p:

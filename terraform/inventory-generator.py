@@ -7,14 +7,6 @@ from dotenv import load_dotenv, set_key
 ## This script reads the output IP addresses after terraform apply ##
 ## writing the values to ansible/inventory.ini and .env            ##
 
-
-# Loads ssh key path from env
-def load_environment():
-    """Load environment variables from .env file"""
-    load_dotenv()
-    return os.getenv('SSH_KEY_PATH')
-
-
 # Intercepts stdout and reads addresses into "ips"
 def get_terraform_output():
     """Get IP addresses directly from terraform output command"""
@@ -25,13 +17,13 @@ def get_terraform_output():
     
     ips = {
         'bastion': tf_output['bastion_fip']['value'],
-        'webfip': tf_output['webserver_fip']['value'],
-        'webint': tf_output['webserver_ip']['value']
+        'web_fip': tf_output['webserver_fip']['value'],
+        'web': tf_output['webserver_ip']['value'],
     }
     return ips
 
 # Writes the ssh key path and IP addresses into ansible/inventory.ini
-def write_inventory(ssh_key_path, ips):
+def write_inventory(ips):
     inventory_path = os.path.expanduser('~/lab.nextcloud/ansible/inventory.ini')
     config_path = os.path.expanduser('~/lab.nextcloud/ansible/ansible.cfg')
     
@@ -40,10 +32,7 @@ def write_inventory(ssh_key_path, ips):
         bs ansible_host={ips['bastion']} ansible_user=ubuntu
 
         [webserver]
-        web ansible_host={ips['webint']} ansible_user=ubuntu ansible_ssh_port=22
-
-        [all:vars]
-        ansible_ssh_private_key_file={ssh_key_path}
+        web ansible_host={ips['web']} ansible_user=ubuntu ansible_ssh_port=22
     """)
 
     config_content = dedent(f"""\
@@ -51,7 +40,7 @@ def write_inventory(ssh_key_path, ips):
         inventory = inventory.ini
 
         [ssh_connection]
-        ssh_args = -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q ubuntu@{ips['bastion']} -i {ssh_key_path}"
+        ssh_args = -o ProxyCommand="ssh -W %h:%p ubuntu@{ips['bastion']}"
     """)
 
     os.makedirs(os.path.dirname(inventory_path), exist_ok=True)
@@ -65,17 +54,19 @@ def write_inventory(ssh_key_path, ips):
         p.write(config_content)
     print(f"Generated ansible.cfg successfully at {config_path}")
 
+def write_to_env(ips):
+    env_path = os.path.expanduser('~/lab.nextcloud/.env')
+
+    set_key(dotenv_path=env_path, key_to_set="HOST_IP", value_to_set=(ips['web_fip']))
+    print("Set host IP in dot env")
 
 def main():
     try:
-        ssh_key_path = load_environment()
-        if not ssh_key_path:
-            raise ValueError("SSH_KEY_PATH not found in .env file")
-
         ips = get_terraform_output()
         
-        write_inventory(ssh_key_path, ips)
+        write_inventory(ips)
 
+        write_to_env(ips)
         
     except Exception as e:
         print(f"Error: {str(e)}")

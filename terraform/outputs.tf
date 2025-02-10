@@ -6,10 +6,9 @@ output "bastion_fip" {
 
 output "webserver_fip" {
   value       = openstack_networking_floatingip_v2.webserver_fip.address
-  description = "Floating IP associated to the load balancer VM"
+  description = "Floating IP associated to the webserver"
 }
 
-# Internal IP output
 output "webserver_ip" {
   value = openstack_compute_instance_v2.webserver.access_ip_v4
 }

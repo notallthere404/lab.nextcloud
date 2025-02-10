@@ -16,8 +16,7 @@ resource "openstack_compute_instance_v2" "webserver" {
   security_groups   = ["sg-web-server"]
   availability_zone = var.zone[1]
   network {
-    uuid        = openstack_networking_network_v2.internal.id
-    fixed_ip_v4 = "192.168.94.10"
+    uuid = openstack_networking_network_v2.internal.id
   }
   block_device {
     uuid                  = openstack_blockstorage_volume_v3.webserver-boot-vol.id

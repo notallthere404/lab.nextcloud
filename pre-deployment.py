@@ -7,6 +7,11 @@ def generate_clouds_yaml():
 
     load_dotenv()
 
+    local_config = {
+        'ssh_path': os.getenv('SSH_KEY_PATH'),
+        'vpn_name': os.getenv('VPN_CONF')
+    }
+
     clouds_config = {
         'clouds': {
             'openstack': {  
@@ -25,10 +30,15 @@ def generate_clouds_yaml():
         }
     }
 
+    local_config_path = os.path.expanduser('~/lab.nextcloud/ansible/playbooks/roles/local/vars/main.yml')
+
     # Define the path for terraform/clouds.yaml
     config_dir = os.path.expanduser('terraform')
     clouds_yaml_path = os.path.join(config_dir, 'clouds.yaml')
 
+
+    print(clouds_yaml_path)
+    
     # Dumps the yaml in defined path
     with open(clouds_yaml_path, 'w') as f:
         yaml.dump(clouds_config, f, default_flow_style=False)
@@ -36,7 +46,11 @@ def generate_clouds_yaml():
     # Set permissions
     os.chmod(clouds_yaml_path, 0o600)
     
+    with open(local_config_path, 'w') as f:
+        yaml.dump(local_config, f, default_flow_style=False)
+
     return clouds_config
+    
 
 def main():
     # Generate clouds.yaml
@@ -44,6 +58,7 @@ def main():
     
     # Verify config in output
     print(yaml.dump(clouds_config, default_flow_style=False))
+
 
 if __name__ == "__main__":
     main()

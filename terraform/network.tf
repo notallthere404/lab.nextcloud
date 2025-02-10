@@ -6,7 +6,7 @@ resource "openstack_networking_network_v2" "internal" {
 resource "openstack_networking_subnet_v2" "subnet" {
   name            = "subnet"
   network_id      = openstack_networking_network_v2.internal.id
-  cidr            = var.cidr[0]
+  cidr            = "194.168.94.0/24"
   ip_version      = 4
   dns_nameservers = ["8.8.8.8"]
 }
@@ -70,6 +70,7 @@ resource "openstack_networking_secgroup_rule_v2" "web_server_http_ingress" {
   description       = "Allow HTTP from the Internet"
 }
 
+## REMOVE HTTPS RULE
 resource "openstack_networking_secgroup_rule_v2" "web_server_https_ingress" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -80,6 +81,7 @@ resource "openstack_networking_secgroup_rule_v2" "web_server_https_ingress" {
   security_group_id = openstack_networking_secgroup_v2.sg-web-server.id
   description       = "Allow HTTPS from the Internet"
 }
+
 
 # External network/router
 resource "openstack_networking_router_v2" "router" {
@@ -110,14 +112,4 @@ resource "openstack_networking_floatingip_v2" "webserver_fip" {
 resource "openstack_compute_floatingip_associate_v2" "webserver_fip_assoc" {
   floating_ip = openstack_networking_floatingip_v2.webserver_fip.address
   instance_id = openstack_compute_instance_v2.webserver.id
-}
-
-data "openstack_dns_zone_v2" "zone" { name = "iths.lab.dsnw.dev." }
-
-resource "openstack_dns_recordset_v2" "a-record" {
-  zone_id = data.openstack_dns_zone_v2.zone.id
-  name    = var.domain[0]
-  ttl     = 10
-  type    = "A"
-  records = [openstack_networking_floatingip_v2.webserver_fip.address]
 }
