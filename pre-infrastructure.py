@@ -2,11 +2,16 @@ import os
 import yaml
 from dotenv import load_dotenv
 
+## This script reads the .env file and writes the variables to files ##
+## terraform main.tf, clouds.yaml, local playbook variables          ##
 
+# Defines current working directory
 project_path = os.getcwd()
 
+# Loads .env variables
 load_dotenv()
 
+# Write ssh key path and VPN to local playbook
 def set_local_vars():
     local_vars = {
         'ssh_path': os.getenv('SSH_KEY_PATH'),
@@ -22,7 +27,7 @@ def set_local_vars():
 
     return print("---Local vars---\n", yaml.dump(local_vars, default_flow_style=False), "\n")
 
-
+# Write ssh key path to main.tf
 def set_terraform_vars():
     terraform_vars = (os.getenv('SSH_KEY_PATH') + '.pub')
 
@@ -40,6 +45,7 @@ def set_terraform_vars():
 
     return print("---Terraform vars---\n", terraform_vars, "\n")
 
+# Write Openstack variables to clouds.yaml
 def set_clouds_yaml():
     clouds_vars = {
         'clouds': {

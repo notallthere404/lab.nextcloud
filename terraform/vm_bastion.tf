@@ -1,4 +1,5 @@
-# Bastion
+### Contains Bastion: Boot Volume | Compute Instance ###
+
 resource "openstack_blockstorage_volume_v3" "bastion_boot_vol" {
   name              = "bastion boot volume"
   size              = 8

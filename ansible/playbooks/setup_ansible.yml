@@ -1,5 +1,5 @@
 ---
-- name: Update ansible
+- name: Update ansible config
   hosts: localhost
   roles:
     - ansible

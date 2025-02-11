@@ -18,12 +18,12 @@
     state: latest
     update_cache: true
 
-- name: Add Docker GPG apt Key
+- name: Add Docker GPG
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
-- name: Add Docker Repository
+- name: Add Docker repo
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
@@ -36,7 +36,7 @@
     state: present
     update_cache: true
 
-- name: Add non-root to docker group
+- name: Add Ubuntu to Docker group
   user:
     name: ubuntu
     groups: [docker]

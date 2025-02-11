@@ -11,6 +11,7 @@ provider "openstack" {
   cloud = "openstack"
 }
 
+# SSH public key path
 resource "openstack_compute_keypair_v2" "keypair" {
   name       = "keypair"
   public_key = file("~/.ssh/nc-ssh.pub")
