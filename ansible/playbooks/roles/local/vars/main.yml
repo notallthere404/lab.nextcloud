@@ -1,2 +1,2 @@
-ssh_path: /home/shl/.ssh/nc-ssh
+ssh_path: ~/.ssh/nc-ssh
 vpn_name: lab-iths-seho
