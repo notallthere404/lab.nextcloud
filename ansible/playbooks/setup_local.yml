@@ -1,5 +1,5 @@
 ---
-- name: Connect to wireguard & generate ssh key
+- name: Pre-deployment preparation
   hosts: localhost
   roles:
     - local

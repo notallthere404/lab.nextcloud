@@ -1,4 +1,4 @@
-#### Replace these Values #######
+### Contains Zones | Image IDs | Compute Flavor ###
 variable "zone" {
   description = "Availability zones"
   type        = list(string)
