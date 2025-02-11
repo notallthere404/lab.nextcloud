@@ -1,12 +1,12 @@
-- name: Set var project dir
+- name: Set project directory variable
   set_fact:
     main_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/lab.nextcloud"
 
-- name: Report var
+- name: Display project directory variable
   debug:
     msg: "Home Directory: {{ main_dir }}"
 
-- name: Create venv
+- name: Create virtual environment
   pip:
     name:
       - pyyaml
@@ -19,7 +19,7 @@
     chdir: "{{ main_dir }}"
   register: script_output
 
-- name: Check vpn
+- name: Check vpn status
   shell: ip a | grep '{{ vpn_name }}'
   register: vpn_status
   failed_when: false
