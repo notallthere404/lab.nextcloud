@@ -14,7 +14,7 @@
     virtualenv: "{{ main_dir }}/env"
 
 - name: Run pre-deployment.py
-  command: "{{ main_dir }}/env/bin/python pre-deployment.py"
+  command: "{{ main_dir }}/env/bin/python pre-application.py"
   args:
     chdir: "{{ main_dir }}"
   register: script_output
@@ -43,19 +43,3 @@
     size: 4096
     state: present
     force: no
-
-- name: Deploy terraform
-  community.general.terraform:
-    project_path: "{{ main_dir }}/terraform"
-    state: present
-    force_init: yes
-  register: terraform_output
-
-- name: Report ip addresses
-  debug:
-    msg: |
-      {{ terraform_output.outputs.bastion_fip.value }}
-      {{ terraform_output.outputs.webserver_fip.value }}
-      {{ terraform_output.outputs.webserver_ip.value }}
-
-# Capture IP Address with python script

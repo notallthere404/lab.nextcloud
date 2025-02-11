@@ -1,0 +1,18 @@
+---
+- name: Set var project dir
+  set_fact:
+    main_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/lab.nextcloud"
+
+- name: Report var
+  debug:
+    msg: "Home Directory: {{ main_dir }}"
+
+- name: Run pre-deployment.py
+  command: "{{ main_dir }}/env/bin/python {{ main_dir }}/inventory-generator.py"
+  args:
+    chdir: "{{ main_dir }}"
+  register: script_output
+
+- name: Report var
+  debug:
+    msg: "{{  script_output.stdout }}"
