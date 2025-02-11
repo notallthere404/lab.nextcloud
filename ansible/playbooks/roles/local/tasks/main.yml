@@ -14,7 +14,7 @@
     virtualenv: "{{ main_dir }}/env"
 
 - name: Run pre-deployment.py
-  command: "{{ main_dir }}/env/bin/python pre-application.py"
+  command: "{{ main_dir }}/env/bin/python pre-infrastructure.py"
   args:
     chdir: "{{ main_dir }}"
   register: script_output

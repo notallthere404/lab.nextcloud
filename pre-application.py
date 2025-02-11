@@ -11,19 +11,31 @@ from dotenv import load_dotenv, set_key
 # Defines current working directory
 project_path = os.getcwd()
 
+# Load environment variables
+load_dotenv()
+
 # Intercepts stdout, returning IP addresses as "ips"
 def get_terraform_output():
-    result = subprocess.run(['terraform', 'output', '-json'], 
-                            capture_output=True, text=True, check=True)
+    tf_dir = os.path.join(project_path, 'terraform')
     
-    tf_output = json.loads(result.stdout)
-
-    ips = {
-        'bastion': tf_output['bastion_fip']['value'],
-        'web_fip': tf_output['webserver_fip']['value'],
-        'web_ip': tf_output['webserver_ip']['value'],
-    }
+    try:
+        os.chdir(tf_dir)
+        result = subprocess.run(['terraform', 'output', '-json'], 
+                                capture_output=True, text=True, check=True)
+        
+        tf_output = json.loads(result.stdout)
+                
+        ips = {
+            'bastion': tf_output['bastion_fip']['value'],
+            'web_fip': tf_output['webserver_fip']['value'],
+            'web_ip': tf_output['webserver_ip']['value'],
+        }
+    finally:
+        os.chdir(project_path) 
+    
     return ips
+
+
 
 # Write web floating IP to HOST_IP var in .env
 def set_env(ips):
@@ -70,13 +82,11 @@ def set_config(ips):
 
 # Loads env and web floating and writes to nextcloud vars
 def set_nextcloud_vars(ips):
-    load_dotenv()
-
     nc_vars = {
             'db_user': os.getenv('DATABASE_USERNAME', 'nextcloud'),
             'db_name': os.getenv('DATABASE_NAME', 'nextcloud'),
             'db_password': os.getenv('DATABASE_PASSWORD', 'nextcloud'),
-            'host_ip': {ips['web_fip']},
+            'host_ip': ips['web_fip'],
             'nc_user': os.getenv('NEXTCLOUD_ADMIN', 'nextcloudadmin'),
             'nc_password': os.getenv('NEXTCLOUD_PASSWORD', 'adminpassword'),
         }
@@ -91,6 +101,7 @@ def set_nextcloud_vars(ips):
 
 def main():
     try:
+        print(get_terraform_output())
         ips = get_terraform_output()
         
         set_env(ips)

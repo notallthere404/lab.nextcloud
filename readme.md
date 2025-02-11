@@ -1,3 +1,10 @@
+## 11/02/2025
+
+Changelog:
+
+1. Cleaner python code
+2. Improved setup local playbook
+
 ## 10/02/2025
 
 Prerequisites

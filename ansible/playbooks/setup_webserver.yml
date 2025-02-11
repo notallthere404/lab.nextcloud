@@ -3,6 +3,5 @@
   hosts: webserver
   become: yes
   roles:
-    - ansible
     - docker
     - nextcloud

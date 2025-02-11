@@ -7,8 +7,8 @@
   debug:
     msg: "Home Directory: {{ main_dir }}"
 
-- name: Run pre-deployment.py
-  command: "{{ main_dir }}/env/bin/python {{ main_dir }}/inventory-generator.py"
+- name: Run pre-application.py
+  command: "{{ main_dir }}/env/bin/python {{ main_dir }}/pre-application.py"
   args:
     chdir: "{{ main_dir }}"
   register: script_output
@@ -16,3 +16,6 @@
 - name: Report var
   debug:
     msg: "{{  script_output.stdout }}"
+
+- name: Refresh inventory to load new configuration
+  meta: refresh_inventory
