@@ -6,6 +6,21 @@
   debug:
     msg: "Home Directory: {{ main_dir }}"
 
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: Install required system packages
+  apt:
+    pkg:
+      - python3
+      - python3-pip
+      - virtualenv
+    state: latest
+    update_cache: true
+
 - name: Create virtual environment
   pip:
     name:
