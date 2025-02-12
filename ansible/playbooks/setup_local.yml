@@ -1,6 +1,5 @@
 ---
-- name: Pre-deployment preparation
+- name: Pre-deployment scripts and vars
   hosts: localhost
   roles:
     - local
-    - manual

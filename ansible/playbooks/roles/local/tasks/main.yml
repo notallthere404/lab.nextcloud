@@ -7,12 +7,14 @@
     msg: "Home Directory: {{ main_dir }}"
 
 - name: Install aptitude
+  become: true
   apt:
     name: aptitude
     state: latest
     update_cache: true
 
 - name: Install required system packages
+  become: true
   apt:
     pkg:
       - python3

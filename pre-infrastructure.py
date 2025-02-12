@@ -72,7 +72,7 @@ def set_clouds_yaml():
     
     #os.chmod(clouds_yaml_path, 0o600)
 
-    return print("---Clouds.yaml---\n", yaml.dump(clouds_vars, default_flow_style=False))
+    return
     
 
 def main():

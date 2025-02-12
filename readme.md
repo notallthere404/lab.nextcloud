@@ -5,13 +5,14 @@ Automatic config:
 Instance Deployment
 
 1. Set .env variables(Remove .template from file name)
-2. [Directory: ansible/] cmd `playbooks/ansible-playbook setup_local.yml`
-3. [Directory: terraform/] cmd `terraform init` => `terraform plan` => `terraform apply`
+2. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_local.yml`
+3. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_manual.yml`
+4. [Directory: terraform/] cmd `terraform init` => `terraform plan` => `terraform apply`
 
 Nextcloud Deployment
 
-1. [Directory: ansible/] cmd `playbooks/ansible-playbook setup_ansible.yml`
-2. [Directory: ansible/] cmd `playbooks/ansible-playbook setup_webserver.yml`
+1. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_ansible.yml`
+2. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_webserver.yml`
 
 Changelog:
 
