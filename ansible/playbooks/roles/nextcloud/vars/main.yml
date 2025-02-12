@@ -1,6 +1,6 @@
 db_name: nextcloud
 db_password: dbpassword
 db_user: nextcloud
-host_ip: 198.18.2.121
+host_ip:
 nc_password: adminpassword
 nc_user: nextcloudadmin
