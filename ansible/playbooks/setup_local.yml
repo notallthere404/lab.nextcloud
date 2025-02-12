@@ -1,6 +1,5 @@
 ---
-- name: "ssh_gen&vpn_connect"
+- name: Pre-deployment scripts and vars
   hosts: localhost
-  roles: 
-    - ssh
-    - vpn
+  roles:
+    - local

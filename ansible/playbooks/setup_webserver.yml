@@ -1,0 +1,7 @@
+---
+- name: Deploy nextcloud image
+  hosts: webserver
+  become: yes
+  roles:
+    - docker
+    - nextcloud

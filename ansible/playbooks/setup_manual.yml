@@ -1,0 +1,5 @@
+---
+- name: Pre-deployment ssh and vpn
+  hosts: localhost
+  roles:
+    - manual

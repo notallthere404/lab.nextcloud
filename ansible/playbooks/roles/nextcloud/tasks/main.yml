@@ -1,0 +1,20 @@
+---
+- name: Add Nextcloud Compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /home/ubuntu/docker-compose.yml
+    mode: preserve
+
+- name: Docker-compose up
+  ansible.builtin.shell: docker-compose up -d --build
+  args:
+    chdir: /home/ubuntu
+
+- name: Print Nextcloud login info
+  debug:
+    msg: |
+      Nextcloud installed, login details:
+      Nextcloud_IP: {{ host_ip }}
+      Username: {{ nc_user }}
+      Password: {{ nc_password }}
+  no_log: false

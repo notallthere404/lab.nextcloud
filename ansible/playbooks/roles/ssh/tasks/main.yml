@@ -1,7 +1,0 @@
-- name: Generate SSH key
-  community.crypto.openssh_keypair:
-        path: "{{ ssh_path }}"
-        type: rsa
-        size: 4096
-        state: present
-        force: no

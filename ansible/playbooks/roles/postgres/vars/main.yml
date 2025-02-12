@@ -1,5 +1,0 @@
-db_host: ""
-db_name: nextcloud
-db_password: dbpassword
-db_user: nextcloud
-domain: ""

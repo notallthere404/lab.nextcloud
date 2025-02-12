@@ -11,10 +11,8 @@ provider "openstack" {
   cloud = "openstack"
 }
 
+# SSH public key path
 resource "openstack_compute_keypair_v2" "keypair" {
-  name       = "iths-lab-env-keypair"
-  public_key = file("~/.ssh/3iths-lab-env.pub")
+  name       = "keypair"
+  public_key = file("~/.ssh/nc-ssh.pub")
 }
-
-
-

@@ -1,0 +1,42 @@
+---
+- name: Run pwd command
+  command: pwd
+  register: pwd_output
+
+- name: Set project directory variable
+  set_fact:
+    main_dir: "{{ pwd_output.stdout | regex_replace('/ansible/playbooks$', '') }}"
+
+- name: Display project directory variable
+  debug:
+    msg: "Home Directory: {{ main_dir }}"
+
+- name: Install aptitude
+  become: true
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: Install required system packages
+  become: true
+  apt:
+    pkg:
+      - python3
+      - python3-pip
+      - virtualenv
+    state: latest
+    update_cache: true
+
+- name: Create virtual environment
+  pip:
+    name:
+      - pyyaml
+      - python-dotenv
+    virtualenv: "{{ main_dir }}/env"
+
+- name: Run pre-deployment.py
+  command: "{{ main_dir }}/env/bin/python pre-infrastructure.py"
+  args:
+    chdir: "{{ main_dir }}"
+  register: script_output
