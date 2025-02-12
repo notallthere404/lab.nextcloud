@@ -9,3 +9,12 @@
   ansible.builtin.shell: docker-compose up -d --build
   args:
     chdir: /home/ubuntu
+
+- name: Print Nextcloud login info
+  debug:
+    msg: |
+      Nextcloud installed, login details:
+      Nextcloud_IP: {{ host_ip }}
+      Username: {{ nc_user }}
+      Password: {{ nc_password }}
+  no_log: false
