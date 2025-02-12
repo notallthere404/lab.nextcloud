@@ -1,4 +1,12 @@
-## 11/02/2025
+Prerequisites
+
+- lab.nextcloud files
+- Ansible
+- Terraform
+- Wireguard | Get vpn conf for wireguard and place in /etc/wireguard/...
+- ssh
+
+---
 
 Automatic config:
 
@@ -14,53 +22,17 @@ Nextcloud Deployment
 1. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_ansible.yml`
 2. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_webserver.yml`
 
-Changelog:
+---
 
-1. Cleaner python code
-2. Improved setup local playbook
-
-## 10/02/2025
-
-Prerequisites
-
-- lab.nextcloud files
-- Ansible
-- Terraform
-- Wireguard | Get vpn conf for wireguard and place in /etc/wireguard/...
-- ssh
-
-Automatic
-
-Cloud configuration & Instance Deployment
-
-1. Rename .env.template to .env (location lab.nextcloud)
-2. Set the variables in .env(Default values are optional to change)
-   (HOST_IP is written automatically)
-3. Activate virtual env "source venv/bin/activate"
-4. Run "python pre-deployment.py"
-5. Run "ansible-playbook ansible/playbooks/setup_local.yml"
-6. (Optional) set key path in main.tf if not using default
-7. cd into lab.nextcloud/terraform
-8. Run "terraform init"
-9. Run "terraform plan"
-   10.Run "terraform apply"
-
-Nextcloud Deployment
-
-1. Run "python inventory-generator.py"
-2. Run "python vars-generator.py"
-3. cd into ansible
-4. Run "ansible-playbook playbooks/setup_webserver.yml
-
-Manual
+Manual config:
 
 Cloud configuration & Instance Deployment
 
 1. Get vpn conf for wireguard and place in /etc/wireguard/...
-2. Set variables in lab.nextcloud/ansible/playbooks/roles/local/vars/main.yml
+2. Set variables in lab.nextcloud/ansible/playbooks/roles/manual/vars/main.yml
    (Set a new ssh key path if you want or use the default)
 3. cd into ansible/
-4. run "ansible-playbook playbooks/setup_local.yml
+4. Run "ansible-playbook playbooks/setup_manual.yml
    (ssh key is now generated and vpn is now connected to)
 5. (Optional) Set ssh key path in terraform/main.tf if changed from default
 6. Get clouds.yaml and openrc.sh script and place in lab.nextcloud/terraform
