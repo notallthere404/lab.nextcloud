@@ -18,28 +18,3 @@
   args:
     chdir: "{{ main_dir }}"
   register: script_output
-
-- name: Check vpn status
-  shell: ip a | grep '{{ vpn_name }}'
-  register: vpn_status
-  failed_when: false
-
-- name: Set vpn status
-  set_fact:
-    vpn_connected: "{{ vpn_status.stdout != '' }}"
-
-- name: Report vpn status
-  ansible.builtin.debug:
-    msg: "VPN Connected: {{ vpn_connected }}"
-
-- name: Connect vpn if not alive
-  command: wg-quick up {{ vpn_name }}
-  when: not vpn_connected
-
-- name: Create ssh
-  community.crypto.openssh_keypair:
-    path: "{{ ssh_path }}"
-    type: rsa
-    size: 4096
-    state: present
-    force: no

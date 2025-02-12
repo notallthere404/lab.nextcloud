@@ -18,7 +18,7 @@ def set_local_vars():
         'vpn_name': os.getenv('VPN_CONF')
     }
 
-    local_vars_path = os.path.join(project_path, 'ansible/playbooks/roles/local/vars/main.yml')
+    local_vars_path = os.path.join(project_path, 'ansible/playbooks/roles/manual/vars/main.yml')
 
 
 
