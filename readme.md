@@ -15,7 +15,7 @@ Get up and running with (almost) zero effort by following these easy steps:
 
 **Setup and Deployment**
 1. Rename `.env.template` to `.env` 
-2. Set the variables in `.env` according to the details in your cloud.yaml file, but leave `HOST_IP` empty as it will be auto-generated.
+2. Set the variables in `.env` according to the details in your cloud.yaml file, but leave `HOST_IP` empty as it will be auto-generated
    - (Default values are optional to change.)
 3. Navigate to the lab.nextcloud/ansible directory using `cd`
 4. Run `ansible-playbook playbooks/setup_local.yml`  to create virtual environment and load dependencies
