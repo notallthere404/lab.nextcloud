@@ -4,7 +4,7 @@
 - Ansible for Ubuntu ([Installation guide](https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html))
 - Terraform for Ubuntu/Debian ([Installation guide](https://developer.hashicorp.com/terraform/install))
 - Wireguard ([Install Wireguard](https://www.wireguard.com/install/) and place your .conf file in /etc/wireguard/)
-- Lab files (Clone or download this repository and place in /home)
+- Lab files (Clone or download this repository)
 - OpenStack clouds.yaml file (Download from your OpenStack account)
 * * *
 
