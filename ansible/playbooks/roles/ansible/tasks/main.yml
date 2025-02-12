@@ -1,9 +1,13 @@
 ---
-- name: Set var project dir
-  set_fact:
-    main_dir: "{{ lookup('ansible.builtin.env', 'HOME') }}/lab.nextcloud"
+- name: Run pwd command
+  command: pwd
+  register: pwd_output
 
-- name: Report var
+- name: Set project directory variable
+  set_fact:
+    main_dir: "{{ pwd_output.stdout | regex_replace('/ansible/playbooks$', '') }}"
+
+- name: Display project directory variable
   debug:
     msg: "Home Directory: {{ main_dir }}"
 
