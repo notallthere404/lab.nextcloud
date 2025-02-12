@@ -5,7 +5,7 @@ Automatic config:
 Instance Deployment
 
 1. Set .env variables(Remove .template from file name)
-2. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_local.yml`
+2. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_local.yml` (`--ask-become-pass` flag might be needed if permission is denied)
 3. [Directory: ansible/] cmd `ansible-playbook playbooks/setup_manual.yml`
 4. [Directory: terraform/] cmd `terraform init` => `terraform plan` => `terraform apply`
 
