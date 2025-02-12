@@ -1,0 +1,5 @@
+---
+- name: Pre-deployment preparation
+  hosts: localhost
+  roles:
+    - manual
