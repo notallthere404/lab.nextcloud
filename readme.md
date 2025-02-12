@@ -18,7 +18,7 @@ Get up and running with (almost) zero effort by following these easy steps:
 2. Set the variables in `.env` according to the details in your cloud.yaml file, but leave `HOST_IP` empty as it will be auto-generated.
    - (Default values are optional to change.)
 3. Navigate to the lab.nextcloud/ansible directory using `cd`
-4. Run `ansible-playbook ansible/playbooks/setup_local.yml`  to create virtual environment and load dependencies
+4. Run `ansible-playbook playbooks/setup_local.yml`  to create virtual environment and load dependencies
 	 - (Use the `--ask-become-pass` flag if permission is denied.)
 5. Run `ansible-playbook playbooks/setup_manual.yml` to check VPN connection and generate SSH key
 6. Navigate to the lab.nextcloud/terraform directory using `cd`
